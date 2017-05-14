@@ -13,6 +13,6 @@ class {Module}
 
     public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
-        return $response->write('Module: {Module}');
+        return $response->getBody()->write('Module: {Module}');
     }
 }
