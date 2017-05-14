@@ -39,6 +39,7 @@ class CreateCommand extends Command
         $moduleName = $this->getModuleName($modulePath);
         $namespace = $input->getOption('namespace');
 
+        $this->validateModulePath($modulePath);
         $this->validateNamespace($namespace);
 
         $this->createFileStructure($modulePath, $moduleName, $namespace);
@@ -48,6 +49,18 @@ class CreateCommand extends Command
     {
         if (substr($namespace, -1, 1) !== '\\') {
             echo "Please enter a valid namespace e.g. 'Acme\\'\n";
+            exit();
+        }
+    }
+
+    private function validateModulePath($modulePath)
+    {
+        if (is_dir($modulePath)) {
+            echo sprintf(
+                'Could not create "%s" as a module with that name already exists.%s',
+                $modulePath,
+                "\n"
+            );
             exit();
         }
     }
