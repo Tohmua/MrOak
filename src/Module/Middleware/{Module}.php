@@ -1,7 +1,7 @@
 <?php
-namespace iaptus\{Module}\Middleware;
+namespace {Namespace}{Module}\Middleware;
 
-class {Module}Middleware
+class {Module}
 {
     public function __construct()
     {

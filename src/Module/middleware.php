@@ -1,5 +1,3 @@
 <?php
 
-return [
-    iaptus\{Module}\Middleware\{Module}Middleware::class,
-];
+$app->add({Namespace}{Module}\Middleware\{Module}Factory::class);
