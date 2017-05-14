@@ -43,6 +43,14 @@ class CreateCommand extends Command
         $this->validateNamespace($namespace);
 
         $this->createFileStructure($modulePath, $moduleName, $namespace);
+
+        echo sprintf(
+            'Module "%s%s" created. Remember to add "%s" to you bootstrap/modules.php file.%s',
+            $namespace,
+            $moduleName,
+            $moduleName,
+            "\n"
+        );
     }
 
     private function validateNamespace($namespace)
