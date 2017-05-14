@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require_once __DIR__ . '/../../../autoload.php';
+} else {
+    die('Could not find autoload.php. You probably need to run composer.');
+}
+
+use MrOak\Command\CreateCommand;
+use Symfony\Component\Console\Application;
+
+$consoleApplication = new Application('Mayden\TaskManager', '1.0.0');
+$consoleApplication->add(new CreateCommand());
+$consoleApplication->run();
