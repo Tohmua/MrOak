@@ -1,4 +1,5 @@
 {
+    "name": "Tohmua/MrOak",
     "require": {
         "symfony/console": "^3.2"
     },
