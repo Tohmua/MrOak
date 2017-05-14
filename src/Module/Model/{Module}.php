@@ -1,7 +1,7 @@
 <?php
-namespace iaptus\{Module}\Model;
+namespace {Namespace}{Module}\Model;
 
-class {Module}Model
+class {Module}
 {
     public function __construct()
     {
