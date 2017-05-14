@@ -1,7 +1,7 @@
 {
     "name": "Tohmua/MrOak",
     "require": {
-        "symfony/console": "^3.2"
+        "symfony/console": "^2.8.20"
     },
     "autoload": {
         "psr-4": {
