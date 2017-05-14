@@ -5,7 +5,10 @@ use PHPUnit_Framework_TestCase;
 
 class {Module}Test extends PHPUnit_Framework_TestCase
 {
-    public function testCanCreateInstance()
+    /**
+     * @test
+     */
+    public function canCreateInstance()
     {
         $instance = new {Module}();
 
