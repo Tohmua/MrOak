@@ -14,12 +14,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends Command
 {
-    const MODULE_TEMPLATE_PATH = __DIR__ . '/../Module';
+    private $moduleTemplatePath = '';
 
     protected function configure()
     {
         $this->setName('create')
              ->setDescription('Create a module')
+             ->addArgument(
+                'Template',
+                InputArgument::REQUIRED,
+                'Name of the template to use'
+             )
              ->addArgument(
                 'Module Path',
                 InputArgument::REQUIRED,
@@ -35,22 +40,57 @@ class CreateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $template = $input->getArgument('Template');
         $modulePath = $input->getArgument('Module Path');
         $moduleName = $this->getModuleName($modulePath);
         $namespace = $input->getOption('namespace');
 
+        $this->validateTemplate($template);
         $this->validateModulePath($modulePath);
         $this->validateNamespace($namespace);
+
+        $this->moduleTemplatePath = $this->getFullTemplatePath($template);
 
         $this->createFileStructure($modulePath, $moduleName, $namespace);
 
         echo sprintf(
-            'Module "%s%s" created. Remember to add "%s" to you bootstrap/modules.php file.%s',
+            'Module "%s%s" created.%s',
             $namespace,
-            $moduleName,
             $moduleName,
             "\n"
         );
+    }
+
+    private function validateTemplate($template)
+    {
+        if (!$this->getFullTemplatePath($template)) {
+            echo "Cant locate template path\n";
+            exit();
+        }
+
+        return true;
+    }
+
+    private function getFullTemplatePath($template)
+    {
+        // Check Current Vendor Directory
+        $dir = sprintf('%s/../../vendor/%s', __DIR__, $template);
+        if (is_dir($dir)) {
+            return $dir;
+        }
+
+        // Check Parent Vendor Directory
+        $dir = sprintf('%s/../../../../%s', __DIR__, $template);
+        if (is_dir($dir)) {
+            return $dir;
+        }
+
+        // Check Absolute Path
+        if (is_dir($template)) {
+            return $template;
+        }
+
+        return false;
     }
 
     private function validateNamespace($namespace)
@@ -89,7 +129,7 @@ class CreateCommand extends Command
     private function createFileStructure($modulePath, $moduleName, $namespace)
     {
         $directoryList = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator(self::MODULE_TEMPLATE_PATH),
+            new RecursiveDirectoryIterator($this->moduleTemplatePath),
             RecursiveIteratorIterator::SELF_FIRST
         );
 
@@ -116,8 +156,8 @@ class CreateCommand extends Command
     {
         return sprintf(
             '%s/%s/%s',
-            self::MODULE_TEMPLATE_PATH,
-            str_replace(self::MODULE_TEMPLATE_PATH, '', $directory->getPath()),
+            $this->moduleTemplatePath,
+            str_replace($this->moduleTemplatePath, '', $directory->getPath()),
             $directory->getFilename()
         );
     }
@@ -128,7 +168,7 @@ class CreateCommand extends Command
             '%s/%s%s/%s',
             getcwd(),
             $modulePath,
-            str_replace(self::MODULE_TEMPLATE_PATH, '', $directory->getPath()),
+            str_replace($this->moduleTemplatePath, '', $directory->getPath()),
             str_replace('{Module}', $moduleName, $directory->getFilename())
         );
     }
