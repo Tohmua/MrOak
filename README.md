@@ -3,12 +3,14 @@ Create base modules or other file structures based on templates. Similar to Lara
 
 ### Install
 ```
-composer require mroke
+composer require tohmua/mr-oak
 composer require <your_module_template>
 ```
 
 ### Usage
-`vendor/bin/MrOak create -h`
+```
+vendor/bin/MrOak create -h
+```
 
 ```
 vendor/bin/MrOak create --namespace="YourProject\\" <your_module_template>" path/to/new/module
@@ -25,3 +27,6 @@ vendor/bin/MrOak create --namespace="YourProject\\" <your_module_template>" path
 ```
 
 You can then just run `composer create-module src/NewModule`
+
+### Examples
+- [SLIM Framework](https://github.com/tohmua/MrOak-SLIM)
