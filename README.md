@@ -19,7 +19,7 @@ vendor/bin/MrOak create --namespace="YourProject\\" <your_module_template>" path
 ```JSON
 "scripts": {
     "create-module": [
-        "vendor/bin/MrOak create --namespace='Acme\\' <your_module_template> "
+        "vendor/bin/MrOak create -s Acme\\\\ <your_module_template> "
     ]
 }
 ```
